@@ -1,9 +1,0 @@
-{% extends 'bookings/admin_base.html' %}
-{% block title %}Overview | Hotel CMS{% endblock %}
-{% block heading %}Overview{% endblock %}
-{% block subheading %}{{ today|date:'l, F j, Y' }}{% endblock %}
-{% block content %}
-<div class="metrics"><div class="metric"><small>Total rooms</small><strong>{{ total_rooms }}</strong><em>{{ available_rooms }} available now</em></div><div class="metric"><small>Confirmed stays</small><strong>{{ confirmed_count }}</strong><em>Upcoming reservations</em></div><div class="metric"><small>Pending review</small><strong>{{ pending_count }}</strong><em>Needs attention</em></div><div class="metric"><small>Booked revenue</small><strong>₹{{ revenue|floatformat:0 }}</strong><em>Confirmed and pending</em></div></div>
-<div class="section-head"><h2>Upcoming reservations</h2><a class="button" href="{% url 'admin-reservations' %}">View all reservations</a></div>
-<div class="panel"><table><thead><tr><th>Guest</th><th>Room</th><th>Stay</th><th>Guests</th><th>Status</th><th>Total</th></tr></thead><tbody>{% for reservation in upcoming_reservations %}<tr><td><div class="guest">{{ reservation.guest_name }}</div><div class="sub">{{ reservation.guest_email }}</div></td><td>{{ reservation.room.name }}<div class="sub">Room {{ reservation.room.room_number }}</div></td><td>{{ reservation.check_in|date:'M j' }} - {{ reservation.check_out|date:'M j, Y' }}</td><td>{{ reservation.guests }}</td><td><span class="badge {{ reservation.status }}">{{ reservation.get_status_display }}</span></td><td>₹{{ reservation.total_price|floatformat:2 }}</td></tr>{% empty %}<tr><td class="empty" colspan="6">No upcoming reservations yet.</td></tr>{% endfor %}</tbody></table></div>
-{% endblock %}
