@@ -1,0 +1,7 @@
+{% extends 'bookings/admin_base.html' %}
+{% block title %}Customer queries | Hotel CMS{% endblock %}
+{% block heading %}Customer queries{% endblock %}
+{% block subheading %}Answer questions from future and returning guests.{% endblock %}
+{% block content %}
+<div class="panel"><table><thead><tr><th>Guest</th><th>Subject</th><th>Query</th><th>Received</th></tr></thead><tbody>{% for inquiry in inquiries %}<tr><td><div class="guest">{{ inquiry.name }}</div><div class="sub">{{ inquiry.email }}</div></td><td>{{ inquiry.subject|default:'General query' }}</td><td>{{ inquiry.message }}</td><td>{{ inquiry.created_at|date:'M j, Y, g:i a' }}</td></tr>{% empty %}<tr><td class="empty" colspan="4">No customer queries yet.</td></tr>{% endfor %}</tbody></table></div>
+{% endblock %}

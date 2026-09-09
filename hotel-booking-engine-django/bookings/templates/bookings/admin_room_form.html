@@ -1,0 +1,21 @@
+{% extends 'bookings/admin_base.html' %}
+{% block title %}{% if is_create %}Add room{% else %}Edit room{% endif %} | Hotel CMS{% endblock %}
+{% block heading %}{% if is_create %}Add room{% else %}Edit room{% endif %}{% endblock %}
+{% block subheading %}Manage room details, pricing, and availability.{% endblock %}
+{% block content %}
+<div class="form-panel">
+  {% if form_error %}<div class="form-error">{{ form_error }}</div>{% endif %}
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-grid">
+      <div class="form-field"><label for="room-name">Room name</label><input id="room-name" name="name" value="{{ room.name|default:'' }}" required></div>
+      <div class="form-field"><label for="room-number">Room number</label><input id="room-number" name="room_number" value="{{ room.room_number|default:'' }}" required></div>
+      <div class="form-field"><label for="room-type">Room type</label><select id="room-type" name="room_type">{% for value, label in room.ROOM_TYPES %}<option value="{{ value }}" {% if room.room_type == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></div>
+      <div class="form-field"><label for="room-capacity">Guest capacity</label><input id="room-capacity" name="capacity" type="number" min="1" value="{{ room.capacity|default:'' }}" required></div>
+      <div class="form-field"><label for="room-price">Price per night</label><input id="room-price" name="base_price_per_night" type="number" min="0" step="0.01" value="{{ room.base_price_per_night|default:'0.00' }}" required></div>
+      <label class="checkbox-field"><input name="is_available" type="checkbox" {% if room.is_available %}checked{% endif %}> Available for bookings</label>
+    </div>
+    <div class="form-actions"><button class="button primary" type="submit">{% if is_create %}Add room{% else %}Save changes{% endif %}</button><a class="button" href="{% url 'admin-rooms' %}">Cancel</a></div>
+  </form>
+</div>
+{% endblock %}
